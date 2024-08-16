@@ -3,12 +3,24 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import './App.scss';
-import { authGuard, routes, unAuthGuard } from './common/utils/routes';
+import { routes, unAuthGuard } from './common/utils/routes';
 import LoadingView from './components/Loading/LoadingView';
 import PrivateRoute from './components/Route/PrivateRoute';
 import store, { persistor } from './store';
+import { createTheme, ThemeProvider } from '@mui/material';
 
-const HomeView = lazy(() => import('./views/HomeView/HomeView'));
+const WelcomeView = lazy(() => import('./views/WelcomeView/WelcomeView'));
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1264A3',
+    },
+    secondary: {
+      main: '#ffffff',
+    },
+  },
+});
 
 const App: React.FC = () => {
   return (
@@ -16,12 +28,14 @@ const App: React.FC = () => {
       <PersistGate loading={null} persistor={persistor}>
         <React.Suspense fallback={<LoadingView open />}>
           <BrowserRouter>
-            <div className="app-container">
-              <Routes>
-                <Route path={routes.DEFAULT} element={<PrivateRoute guards={[authGuard]} element={<HomeView />} />} />
-                <Route path={routes.LOGIN} element={<PrivateRoute guards={[unAuthGuard]} element={<HomeView />} />} />
-              </Routes>
-            </div>
+            <ThemeProvider theme={theme}>
+              <div className="app-container">
+                <Routes>
+                  <Route path={routes.DEFAULT} element={<PrivateRoute guards={[unAuthGuard]} element={<WelcomeView />} />} />
+                  <Route path={'*'} element={<PrivateRoute guards={[unAuthGuard]} element={<WelcomeView />} />} />
+                </Routes>
+              </div>
+            </ThemeProvider>
           </BrowserRouter>
         </React.Suspense>
       </PersistGate>

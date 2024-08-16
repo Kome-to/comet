@@ -3,6 +3,7 @@ import { storage } from './storage';
 export const routes = {
   DEFAULT: '/',
   LOGIN: '/login',
+  WELCOME: '/welcome',
 };
 
 export interface RouteGuard {
