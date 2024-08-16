@@ -1,5 +1,7 @@
-
 $color-primary: #000000;
 
-
 $color-white: #ffffff;
+
+:root {
+    --color-primary: #{$color-primary};
+}
