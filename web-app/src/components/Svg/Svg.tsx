@@ -1,10 +1,10 @@
-
 import classNames from 'classnames';
 import React from 'react';
 import { useDynamicSvgImport } from './hooks/useDynamicSvgImport';
 
 export enum SvgName {
   LOGO = 'logo',
+  INFO = 'info',
 }
 
 interface SvgProps {

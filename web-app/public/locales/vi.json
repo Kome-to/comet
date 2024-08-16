@@ -1,0 +1,38 @@
+{
+  "common.text.privacy&Term": "Chính sách & điều khoản",
+  "common.text.contactUs": "Liên hệ",
+  "common.text.changeRegion": "Đổi ngôn ngữ",
+  "common.text.english": "Tiếng Anh",
+  "common.text.vietnamese": "Tiếng Việt",
+
+  "form.error.fieldRequired": "Trường này không được bỏ trống",
+  "form.error.confirmationPasswordNotMatch": "Mật khẩu không khớp",
+  "form.error.invalidEmail": "Email không hợp lệ",
+
+  "welcomeView.button.signIn": "Đăng nhập",
+  "welcomeView.button.getStarted": "Bắt đầu ngay",
+  "welcomeView.button.download": "Tải xuống",
+  "welcomeView.button.download64Bit": "Tải xuống (64-bit)",
+  "welcomeView.text.slogan1": "Được tạo ra cho mọi người.",
+  "welcomeView.text.slogan2": "Xây dựng vì năng suất.",
+  "welcomeView.text.description.1": "Comet được dùng thử miễn phí",
+  "welcomeView.text.description.2": "bao lâu tùy thích",
+  "welcomeView.text.download.title": "Tải xuống Comet cho Windows",
+  "welcomeView.text.download.subTitle": "Với ứng dụng của Comet, nhóm của bạn luôn sẵn sàng chỉ với một cú nhấp chuột",
+
+  "getStartedView.text.title.enterEmailAndPassword": "Trước tiên, hãy nhập email và mật khẩu của bạn",
+  "getStartedView.text.subTitle.enterEmailAndPassword.1": "Hãy sử dụng địa chỉ",
+  "getStartedView.text.subTitle.enterEmailAndPassword.2": "email công việc của bạn.",
+  "getStartedView.text.alreadyUsingComet": "Đã sử dụng Comet?",
+  "getStartedView.text.signUpToWorkspace": "Đăng nhập vào Workspace của bạn",
+  "getStartedView.form.field.label.email": "Email",
+  "getStartedView.form.field.placeholder.email": "name@email-cong-viec.com",
+  "getStartedView.form.field.label.password": "Password",
+  "getStartedView.form.field.label.confirmationPassword": "Nhập lại mật khẩu",
+  "getStartedView.button.signIn": "Đăng ký",
+  "getStartedView.text.title.chooseLanguage": "Chọn ngôn ngữ",
+
+  "signInView.text.title.signInToComet": "Đăng nhập vào Comet",
+  "signInView.text.newToComet": "Mới sử dụng Comet?",
+  "signInView.text.createAnAccount": "Tạo một tài khoản"
+}

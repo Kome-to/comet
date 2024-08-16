@@ -15,12 +15,14 @@ export default {
             sm: { max: '640px' },
             xs: { max: '480px' },
         },
-        extend: {},
-        colors: {
-            primary: '#1264A3',
-            white: '#ffffff',
-            black: '#000000'
-        }
+        extend: {
+            colors: {
+                primary: '#1264A3',
+                white: '#ffffff',
+                black: '#000000'
+            }
+        },
+
     },
     plugins: [],
 }

@@ -10,6 +10,8 @@ import store, { persistor } from './store';
 import { createTheme, ThemeProvider } from '@mui/material';
 
 const WelcomeView = lazy(() => import('./views/WelcomeView/WelcomeView'));
+const GetStartedView = lazy(() => import('./views/GetStartedView/GetStartedView'));
+const SignInView = lazy(() => import('./views/SignInView/SignInView'));
 
 const theme = createTheme({
   palette: {
@@ -32,6 +34,8 @@ const App: React.FC = () => {
               <div className="app-container">
                 <Routes>
                   <Route path={routes.DEFAULT} element={<PrivateRoute guards={[unAuthGuard]} element={<WelcomeView />} />} />
+                  <Route path={routes.GET_STATED} element={<PrivateRoute guards={[unAuthGuard]} element={<GetStartedView />} />} />
+                  <Route path={routes.SIGN_IN} element={<PrivateRoute guards={[unAuthGuard]} element={<SignInView />} />} />
                   <Route path={'*'} element={<PrivateRoute guards={[unAuthGuard]} element={<WelcomeView />} />} />
                 </Routes>
               </div>

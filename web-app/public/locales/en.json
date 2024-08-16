@@ -1,0 +1,38 @@
+{
+  "common.text.privacy&Term": "Privacy & Term",
+  "common.text.contactUs": "Contact Us",
+  "common.text.changeRegion": "Change Region",
+  "common.text.english": "English",
+  "common.text.vietnamese": "Vietnamese",
+
+  "form.error.fieldRequired": "This field is required",
+  "form.error.confirmationPasswordNotMatch": "Password is not match",
+  "form.error.invalidEmail": "Email is invalid",
+
+  "welcomeView.button.signIn": "Sign In",
+  "welcomeView.button.getStarted": "Get Started",
+  "welcomeView.button.download": "Download",
+  "welcomeView.button.download64Bit": "Download (64-bit)",
+  "welcomeView.text.slogan1": "Made for people.",
+  "welcomeView.text.slogan2": "Built for productivity.",
+  "welcomeView.text.description.1": "Slack is free to try",
+  "welcomeView.text.description.2": "for as long as you’d like",
+  "welcomeView.text.download.title": "Download Comet for Windows",
+  "welcomeView.text.download.subTitle": "With the Slack app, your team is never more than a click away.",
+
+  "getStartedView.text.title.enterEmailAndPassword": "First, enter your email",
+  "getStartedView.text.subTitle.enterEmailAndPassword.1": "We suggest using the ",
+  "getStartedView.text.subTitle.enterEmailAndPassword.2": "email address you use at work.",
+  "getStartedView.text.alreadyUsingComet": "Already using Comet?",
+  "getStartedView.text.signUpToWorkspace": "Sign in to an existing workspace",
+  "getStartedView.form.field.label.email": "Email",
+  "getStartedView.form.field.placeholder.email": "name@work-email.com",
+  "getStartedView.form.field.label.password": "Password",
+  "getStartedView.form.field.label.confirmationPassword": "Confirmation Password",
+  "getStartedView.button.signIn": "Sign Up",
+  "getStartedView.text.title.chooseLanguage": "Change language",
+
+  "signInView.text.title.signInToComet": "Sign in to Comet",
+  "signInView.text.newToComet": "New to Comet",
+  "signInView.text.createAnAccount": "Create an Account"
+}

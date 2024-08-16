@@ -2,8 +2,9 @@ import { storage } from './storage';
 
 export const routes = {
   DEFAULT: '/',
-  LOGIN: '/login',
+  SIGN_IN: '/sign-in',
   WELCOME: '/welcome',
+  GET_STATED: '/get-stated',
 };
 
 export interface RouteGuard {
@@ -30,5 +31,5 @@ export const unAuthGuard: RouteGuard = {
 export const authGuard: RouteGuard = {
   failCondition: !storage.getToken(),
   requestDone: true,
-  onFail: routes.LOGIN,
+  onFail: routes.SIGN_IN,
 };
