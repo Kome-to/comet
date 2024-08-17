@@ -1,4 +1,4 @@
 
-window.ipcRenderer.on('main-process-message', (_event, ...args) => {
-  console.log('[Receive Main-process message]:', ...args)
+window.ipcRenderer.on('get/is-maximized', (_event, ...args) => {
+  console.log('maximize:', ...args)
 })

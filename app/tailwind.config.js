@@ -1,14 +1,33 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
-  },
-  corePlugins: {
-    preflight: false,
+    fontFamily: {
+      sans: ["Roboto", "Helvetica", "Arial", 'sans-serif']
+    },
+    screens: {
+      xl: { max: '1280px' },
+      lg: { max: '1024px' },
+      md: { max: '768px' },
+      sm: { max: '640px' },
+      xs: { max: '480px' },
+    },
+    extend: {
+      colors: {
+        'primary': '#1264A3',
+        'white': '#ffffff',
+        'black': '#000000',
+
+        'ex-grey': '#1D1C1D',
+        'ex-grey-70': '#1D1C1D70',
+        'ex-grey-50': '#454447'
+      }
+    },
+
   },
   plugins: [],
 }
+
