@@ -1,3 +1,10 @@
 {
-  "text.brand": "Comet"
+  "common.text.brand": "Comet",
+
+  "titleBar.text.subTitle.signIn": "Đăng nhập",
+
+  "signInView.text.title": "Comet kết nối mọi người lại với nhau, bất kể bạn đang ở đâu",
+  "signInView.text.info.navigateToBrowser": "Chúng tôi sẽ chuyển bạn đến trình duyệt web để đăng nhập, sau đó quay lại đây.",
+  "signInView.text.info.createNewWorkspace": "Tạo một workspace mới",
+  "signInView.text.info.newInComet": "Nhóm bạn mới sử dụng Comet?"
 }

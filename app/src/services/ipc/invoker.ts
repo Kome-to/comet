@@ -13,4 +13,6 @@ export class IcpInvoker {
   minimizeApp = async () => this.icp.invoke(ICPEvents.APP_MINIMIZE);
 
   maximizeApp = async () => this.icp.invoke(ICPEvents.APP_MAXIMIZE);
+
+  openExternal = async (url: string) => this.icp.invoke(ICPEvents.APP_OPEN_EXTERNAL, url);
 }

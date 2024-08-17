@@ -1,16 +1,16 @@
+import { createTheme, ThemeProvider } from '@mui/material';
 import React, { lazy } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import './App.scss';
-import { routes, unAuthGuard } from './common/utils/routes';
+import { authGuard, routes, unAuthGuard } from './common/utils/routes';
 import LoadingView from './components/Loading/LoadingView';
 import PrivateRoute from './components/Route/PrivateRoute';
-import { createTheme, ThemeProvider } from '@mui/material';
-import store, { persistor } from './store';
 import TitleBar from './components/TitleBar/TitleBar';
+import store, { persistor } from './store';
 
-// const WelcomeView = lazy(() => import('./views/WelcomeView/WelcomeView'));
+const SignInView = lazy(() => import('./views/SignInView/SignInView'));
 
 const theme = createTheme({
   palette: {
@@ -30,10 +30,11 @@ const App: React.FC = () => {
         <React.Suspense fallback={<LoadingView open />}>
           <BrowserRouter>
             <ThemeProvider theme={theme}>
-              <div className="app-container">
+              <div className="app-container pt-8 w-screen h-screen">
                 <TitleBar />
                 <Routes>
-                  <Route path={routes.DEFAULT} element={<PrivateRoute guards={[unAuthGuard]} element={<div></div>} />} />
+                  <Route path={routes.DEFAULT} element={<PrivateRoute guards={[authGuard]} element={<SignInView />} />} />
+                  <Route path={routes.SIGN_IN} element={<PrivateRoute guards={[unAuthGuard]} element={<SignInView />} />} />
                 </Routes>
               </div>
             </ThemeProvider>

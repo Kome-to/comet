@@ -3,8 +3,6 @@ import { storage } from './storage';
 export const routes = {
   DEFAULT: '/',
   SIGN_IN: '/sign-in',
-  WELCOME: '/welcome',
-  GET_STATED: '/get-stated',
 };
 
 export interface RouteGuard {
