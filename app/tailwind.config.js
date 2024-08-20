@@ -17,7 +17,8 @@ export default {
     },
     extend: {
       colors: {
-        'primary': '#1264A3',
+        'primary': '#003d61',
+        // 'primary': '#1264A3',
         'white': '#ffffff',
         'black': '#000000',
 
@@ -25,7 +26,10 @@ export default {
 
         'ex-grey': '#1D1C1D',
         'ex-grey-70': '#1D1C1D70',
-        'ex-grey-50': '#454447'
+        'ex-grey-50': '#454447',
+        'ex-surf': '#d8eef6',
+        'ex-text-primary': '#d1d2d3',
+        'ex-text-1': '#ababad'
       }
     },
 

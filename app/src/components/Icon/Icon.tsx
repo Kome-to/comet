@@ -11,6 +11,8 @@ export enum IconName {
   MENU = 'menu',
   MAXIMIZE = 'maximize',
   MINIMIZE = 'minimize',
+  CHANNEL_PREFIX = 'channel-prefix',
+  TYPE_BOLD = 'type-bold',
 }
 
 interface IconProps {

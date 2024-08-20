@@ -1,12 +1,10 @@
-import { app, BrowserWindow, ipcMain, shell } from 'electron';
-import { createRequire } from 'node:module';
+import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { initEvent } from './events';
 import { update } from './update';
 
-const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // The built directory structure
@@ -42,14 +40,14 @@ let win: BrowserWindow | null = null;
 const preload = path.join(__dirname, '../preload/index.mjs');
 const indexHtml = path.join(RENDERER_DIST, 'index.html');
 
-async function createWindow() {
+const createWindow = async () => {
   win = new BrowserWindow({
     title: 'Main window',
     autoHideMenuBar: true,
     frame: false,
     width: 1020,
     height: 766,
-    minHeight: 940,
+    // minHeight: 940,
     icon: path.join(process.env.VITE_PUBLIC, 'favicon.ico'),
     webPreferences: {
       preload,
@@ -71,11 +69,6 @@ async function createWindow() {
     win.loadFile(indexHtml);
   }
 
-  // Test actively push message to the Electron-Renderer
-  win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', new Date().toLocaleString());
-  });
-
   // Make all links open with the browser, not with the application
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith('https:')) shell.openExternal(url);
@@ -86,17 +79,38 @@ async function createWindow() {
   update(win);
   // Init events
   initEvent(win);
+};
+
+if (process.defaultApp) {
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient('comet-app', process.execPath, [path.resolve(process.argv[1])]);
+  }
+} else {
+  app.setAsDefaultProtocolClient('comet-app');
 }
 
-app.whenReady().then(() => {
-  createWindow();
+const gotTheLock = app.requestSingleInstanceLock();
 
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+if (!gotTheLock) {
+  app.quit();
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (win) {
+      if (win.isMinimized()) win.restore();
+      win.focus();
     }
+    // the commandLine is array of strings in which last element is deep link url
+    dialog.showErrorBox('Welcome Back', `You arrived from: ${commandLine.pop()}`);
   });
+}
+
+// Handle the protocol. In this case, we choose to show an Error Box.
+app.on('open-url', (event, url) => {
+  dialog.showErrorBox('Welcome Back', `You arrived from: ${url}`);
 });
+
+app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
   win = null;

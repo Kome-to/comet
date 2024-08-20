@@ -1,14 +1,25 @@
+import { WebAppRoutes } from '@/common/enum';
+import { routes } from '@/common/utils/routes';
+import { storage } from '@/common/utils/storage';
 import Logo from '@/components/Logo/Logo';
 import { Button } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import icp from '../../services/ipc/icp';
-import { WebAppRoutes } from '@/common/enum';
+import { useNavigate } from 'react-router-dom';
 
 const SignView: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
-  const navigatorToWebApp = (route: string) => icp.invoker.openExternal(`${import.meta.env.VITE_WEBAPP_URL}${route}`);
+  // const navigatorToWebApp = (route: string) => icp.invoker.openExternal(`${import.meta.env.VITE_WEBAPP_URL}${route}`);
+  const navigatorToWebApp = (route: string) => {
+    console.log('====================================');
+    console.log(storage.getToken());
+    console.log('====================================');
+    storage.setToken('token');
+    // window.location.reload();
+    navigate(routes.DEFAULT, { replace: true });
+  };
 
   return (
     <div className="size-full bg-primary flex select-none">
@@ -21,7 +32,7 @@ const SignView: React.FC = () => {
           variant="contained"
           classes={{ root: '!mt-8 !bg-ex-green h-[46px] !font-bold !normal-case !text-base !rounded-lg !w-[300px]' }}
         >
-          Sign In to Comet
+          {t('signInView.button.signIn')}
         </Button>
         <div className="mt-5">{t('signInView.text.info.navigateToBrowser')}</div>
         <div className="grow flex items-end text-sm pb-12 font-medium">

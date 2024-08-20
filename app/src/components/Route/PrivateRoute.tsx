@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Navigate } from 'react-router-dom';
 
 import { RouteGuard } from '../../common/utils/routes';
+import { storage } from '@/common/utils/storage';
 
 interface PrivateRouteProps {
   guards: RouteGuard[];
@@ -18,7 +19,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, guards }) => {
       return null;
     }
 
-    if (guard.failCondition) {
+    if (guard.failCondition()) {
       // if guard request is done then check if failCondition matches
       // and if it does then either redirect to onFail or display nothing
       if (guard.onFail) {

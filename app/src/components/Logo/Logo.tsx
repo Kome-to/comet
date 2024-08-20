@@ -10,20 +10,20 @@ interface LogoProps {
   textColor?: string;
 }
 
+const LogoWrapper = styled.div<{ $textColor: string }>`
+  svg {
+    #SvgjsG1154 {
+      fill: ${(props) => props.$textColor};
+    }
+  }
+`;
+
 const Logo: React.FC<LogoProps> = ({ className, onClick, wrapperClassName, textColor = '#000' }) => {
   const wrapperClasses = classNames('size-max cursor-pointer', wrapperClassName);
   const classes = classNames('logo', className);
 
-  const LogoWrapper = styled.div`
-    svg {
-      #SvgjsG1154 {
-        fill: ${textColor};
-      }
-    }
-  `;
-
   return (
-    <LogoWrapper onClick={onClick} className={wrapperClasses}>
+    <LogoWrapper $textColor={textColor} onClick={onClick} className={wrapperClasses}>
       <Icon className={classes} name={IconName.LOGO} />
     </LogoWrapper>
   );

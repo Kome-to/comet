@@ -11,8 +11,9 @@ import TitleBarButton from './TitleBarButton';
 import { useMaximizeWindowListener } from './useMaximizeWindowListener';
 import { useLocation } from 'react-router-dom';
 import { routes } from '@/common/utils/routes';
+import classNames from 'classnames';
 
-const TitleBar: React.FC = () => {
+const TitleBar: React.FC<{ auth?: boolean }> = ({ auth }) => {
   const { t } = useTranslation();
   const { isMaximized } = useMaximizeWindowListener();
   const { pathname } = useLocation();
@@ -30,22 +31,29 @@ const TitleBar: React.FC = () => {
     }
   }, [pathname]);
 
+  const titleBarClasses = classNames('window-draggable fixed top-0 left-0 w-screen h-8 flex justify-between items-center', {
+    'bg-ex-grey': !auth,
+    'bg-transparent h-[40px]': auth,
+  });
+
   return (
-    <div className="window-draggable fixed top-0 left-0 w-screen h-8 bg-ex-grey flex justify-between items-center">
+    <div className={titleBarClasses}>
       <div className="h-full flex text-white items-center">
         {/* TODO: Create Menu function*/}
-        <TitleBarButton icon={MenuIcon} />
-        <div className="flex items-center gap-2">
-          <Icon className="size-4" name={IconName.LOGO_S} />
-          {subText ? (
-            <>
-              <div className="ml-1 text-sm select-none">{t(subText)}</div>
-              <div className="h-3 w-[1px] bg-white" />
-            </>
-          ) : null}
+        <TitleBarButton className={`${auth && 'w-[70px]'} flex justify-center`} icon={MenuIcon} />
+        {!auth && (
+          <div className="flex items-center gap-2">
+            <Icon className="size-4" name={IconName.LOGO_S} />
+            {subText ? (
+              <>
+                <div className="ml-1 text-sm select-none">{t(subText)}</div>
+                <div className="h-3 w-[1px] bg-white" />
+              </>
+            ) : null}
 
-          <div className="text-sm select-none">{t('common.text.brand')}</div>
-        </div>
+            <div className="text-sm select-none">{t('common.text.brand')}</div>
+          </div>
+        )}
       </div>
       <div className="h-full flex items-center">
         <TitleBarButton onClick={onMinimizeApp} icon={HorizontalRuleIcon} />
