@@ -1,10 +1,15 @@
-import { App } from './App';
-import router from './router';
+import cors from 'cors';
+import App from './app';
+import { API_PREFIX } from './common/constants';
+import routes from './routes';
 
-const app = new App().getExpress();
+const middleWares = [cors()];
 
-app.get('/health-check', async (req, res) => {
-  return res.status(200).send({ message: 'OK' });
+const app = new App({
+  port: parseInt(process.env.APP_PORT) || 4044,
+  apiPrefix: API_PREFIX,
+  middleWares,
+  routes,
 });
 
-app.use('/api', router);
+app.listen();

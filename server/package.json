@@ -1,27 +1,82 @@
 {
-  "name": "server",
+  "name": "comet-server",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
+  "description": "Comet server",
+  "main": "src/index.ts",
   "scripts": {
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon",
+    "lint": "eslint  src",
+    "lint:fix": "eslint --fix --quiet src",
+    "prettier": "prettier --check src",
+    "prettier:fix": "prettier --write src",
+    "test": "jest --detectOpenHandles",
+    "test:coverage": "jest --coverage",
+    "db:build:migrations": "tsc -p tsconfig.migrations.json",
+    "db:migration:generate": "sequelize migration:generate --migrations-path src/migrations --name",
+    "db:migrate": "yarn db:build:migrations && sequelize db:migrate",
+    "db:migrate:undo": "yarn db:build:migrations && sequelize db:migrate:undo",
+    "db:seed:generate": "sequelize seed:generate --seeders-path src/seeders --name",
+    "db:seed": "npm run db:build:migrations && sequelize db:seed:all",
+    "clean": "rm -rf dist",
+    "build": "tsc"
   },
   "dependencies": {
-    "@types/lodash": "^4.17.7",
+    "axios": "^1.7.4",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "express-validation": "^4.1.1",
+    "fs-extra": "^11.2.0",
+    "http-status": "^1.7.4",
     "lodash": "^4.17.21",
-    "typescript-eslint": "^8.2.0"
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.12.0",
+    "sequelize": "^6.37.3"
   },
   "devDependencies": {
-    "@babel/cli": "^7.24.8",
-    "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.25.3",
     "@eslint/js": "^9.9.0",
-    "@types/express": "^4.17.21",
-    "@types/node": "^22.4.1",
+    "@types/cors": "^2.8.17",
+    "@types/eslint-config-prettier": "^6.11.3",
+    "@types/eslint__js": "^8.42.3",
+    "@types/lodash": "^4.17.7",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.4.2",
+    "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.9.0",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3",
+    "sequelize-cli": "^6.6.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
-  }
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run prettier",
+      "npm run lint:fix",
+      "git add ."
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/env",
+      "@babel/preset-typescript"
+    ],
+    "plugins": [
+      "@babel/plugin-transform-runtime",
+      "@babel/proposal-class-properties",
+      "@babel/proposal-object-rest-spread"
+    ]
+  },
+  "license": "UNLICENSED"
 }
