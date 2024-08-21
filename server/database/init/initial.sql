@@ -1,0 +1,3 @@
+SELECT 'CREATE DATABASE comet'
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'comet')\gexec
+GRANT ALL PRIVILEGES ON DATABASE comet TO postgres;
