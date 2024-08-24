@@ -10,7 +10,7 @@ import { LoginParams, SignUpParams } from '../interfaces/Auth';
 import UserRepository from '../repositories/User';
 import AuthServices from '../services/Auth';
 class AuthController extends AuthServices {
-  public login = async (req: Request<{}, {}, LoginParams>, res: Response) => {
+  public signIn = async (req: Request<{}, {}, LoginParams>, res: Response) => {
     const { email, password } = req.body;
 
     const existUser = await UserRepository.getByEmail(email);
@@ -18,7 +18,6 @@ class AuthController extends AuthServices {
     if (!existUser) {
       throw new NotFoundError(messages.user.notFound);
     }
-    console.log('🚀 ~ AuthController ~ login= ~ existUser:', existUser);
 
     const isMatch = await verifyPassword(password, existUser.password);
 

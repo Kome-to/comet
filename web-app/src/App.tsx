@@ -1,13 +1,15 @@
+import { createTheme, ThemeProvider } from '@mui/material';
 import React, { lazy } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { PersistGate } from 'redux-persist/integration/react';
 import './App.scss';
 import { routes, unAuthGuard } from './common/utils/routes';
 import LoadingView from './components/Loading/LoadingView';
 import PrivateRoute from './components/Route/PrivateRoute';
 import store, { persistor } from './store';
-import { createTheme, ThemeProvider } from '@mui/material';
 
 const WelcomeView = lazy(() => import('./views/WelcomeView/WelcomeView'));
 const GetStartedView = lazy(() => import('./views/GetStartedView/GetStartedView'));
@@ -38,6 +40,7 @@ const App: React.FC = () => {
                   <Route path={routes.SIGN_IN} element={<PrivateRoute guards={[unAuthGuard]} element={<SignInView />} />} />
                   <Route path={'*'} element={<PrivateRoute guards={[unAuthGuard]} element={<WelcomeView />} />} />
                 </Routes>
+                <ToastContainer />
               </div>
             </ThemeProvider>
           </BrowserRouter>

@@ -1,7 +1,10 @@
 export interface SignUpParams {
   email: string;
   password: string;
-  confirmationPassword?: string;
+  firstName: string;
+  lastName: string;
+  publicKey: string;
+  ePrivateKey: string;
 }
 
 export interface SignInParams {

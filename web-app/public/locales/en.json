@@ -4,10 +4,14 @@
   "common.text.changeRegion": "Change Region",
   "common.text.english": "English",
   "common.text.vietnamese": "Vietnamese",
+  "common.text.successfully": "Successfully",
 
   "form.error.fieldRequired": "This field is required",
   "form.error.confirmationPasswordNotMatch": "Password is not match",
   "form.error.invalidEmail": "Email is invalid",
+
+  "error.userExist": "User is exist",
+  "error.somethingWrong": "Something wrong, please try later",
 
   "welcomeView.button.signIn": "Sign In",
   "welcomeView.button.getStarted": "Get Started",
@@ -20,19 +24,24 @@
   "welcomeView.text.download.title": "Download Comet for Windows",
   "welcomeView.text.download.subTitle": "With the Slack app, your team is never more than a click away.",
 
-  "getStartedView.text.title.enterEmailAndPassword": "First, enter your email",
+  "getStartedView.text.title.enterEmailAndPassword": "First, enter your information.",
   "getStartedView.text.subTitle.enterEmailAndPassword.1": "We suggest using the ",
   "getStartedView.text.subTitle.enterEmailAndPassword.2": "email address you use at work.",
   "getStartedView.text.alreadyUsingComet": "Already using Comet?",
   "getStartedView.text.signUpToWorkspace": "Sign in to an existing workspace",
   "getStartedView.form.field.label.email": "Email",
+  "getStartedView.form.field.label.firstName": "First name",
+  "getStartedView.form.field.label.lastName": "Last name",
   "getStartedView.form.field.placeholder.email": "name@work-email.com",
   "getStartedView.form.field.label.password": "Password",
   "getStartedView.form.field.label.confirmationPassword": "Confirmation Password",
   "getStartedView.button.signIn": "Sign Up",
   "getStartedView.text.title.chooseLanguage": "Change language",
+  "getStartedView.text.success.createSuccessfully": "Create account successfully, please sign in",
 
   "signInView.text.title.signInToComet": "Sign in to Comet",
   "signInView.text.newToComet": "New to Comet",
-  "signInView.text.createAnAccount": "Create an Account"
+  "signInView.text.createAnAccount": "Create an Account",
+  "signInView.error.emailOrPasswordIncorrect": "Email or password is incorrect, please try again",
+  "signInView.success.signInSuccessfully": "Sign in successfully"
 }

@@ -1,38 +1,58 @@
+import { Button } from '@mui/material';
 import { FastField, Form, Formik } from 'formik';
+import { get } from 'lodash';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { encryptWithAES, generateRSAKeyPair, hash } from '../../common/utils/crypto';
+import notify from '../../common/utils/notify';
+import { routes } from '../../common/utils/routes';
 import Logo from '../../components/Logo/Logo';
 import { FormikTextInput } from '../../components/TextInput/TextInput';
-import { SignUpParams } from '../../services/types/common';
-import { Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { routes } from '../../common/utils/routes';
+import api from '../../services/apiService';
 import ChangeRegion from './ChangeRegion';
 
 const linkCss = 'hover:underline cursor-pointer';
 
+interface DefaultSignUpParams {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  confirmationPassword: string;
+}
+
 const GetStartedView: React.FC = () => {
   const { t } = useTranslation();
   const navigator = useNavigate();
-
-  const defaultValue: SignUpParams = { email: '', password: '', confirmationPassword: '' };
+  const defaultValue: DefaultSignUpParams = { email: '', password: '', firstName: '', lastName: '', confirmationPassword: '' };
 
   const signUpSchema = Yup.object().shape({
     email: Yup.string().required(t('form.error.fieldRequired')).email(t('form.error.invalidEmail')),
     password: Yup.string().required(t('form.error.fieldRequired')),
-    // .matches(/^(?=.*[A-Z])/, t('form.error.password.missingRequirement'))
-    // .matches(/^(?=.*[a-z])/, t('form.error.password.missingRequirement'))
-    // .matches(/^(?=.*[0-9])/, t('form.error.password.missingRequirement'))
-    // .matches(/^(?=.*[<'>:;|_~`+=,\\/%"?)(\][^!@#$%^&*.-])/, t('form.error.password.missingRequirement'))
-    // .min(8, t('form.error.password.tooShort')),
+    firstName: Yup.string().required(t('form.error.fieldRequired')),
+    lastName: Yup.string().required(t('form.error.fieldRequired')),
     confirmationPassword: Yup.string()
       .required(t('form.error.fieldRequired'))
       .oneOf([Yup.ref('password')], t('form.error.confirmationPasswordNotMatch')),
   });
 
-  const onSubmit = (value: SignUpParams) => {
-    console.log('🚀 ~ onSubmit ~ value:', value);
+  const onSubmit = async ({ email, password, firstName, lastName }: DefaultSignUpParams) => {
+    try {
+      const { publicKey, privateKey } = await generateRSAKeyPair();
+      const hashedPassword = await hash(password);
+      const { cipherText: ePrivateKey } = await encryptWithAES(hashedPassword, privateKey, email);
+      await api.user.signUp({ email, password: hashedPassword, firstName, lastName, publicKey, ePrivateKey });
+      notify.success(t('getStartedView.text.success.createSuccessfully'));
+      navigator(routes.SIGN_IN);
+    } catch (e) {
+      const message = get(e, 'response.data.message');
+      if (message === 'user.exist') {
+        return notify.error(t('error.userExist'));
+      }
+      return notify.error(t('error.somethingWrong'));
+    }
   };
 
   const onClickLogo = () => navigator(routes.DEFAULT);
@@ -61,14 +81,30 @@ const GetStartedView: React.FC = () => {
                   component={FormikTextInput}
                 />
                 <FastField
+                  className="w-full"
+                  label={t('getStartedView.form.field.label.firstName')}
+                  placeholder={t('getStartedView.form.field.label.firstName')}
+                  name="firstName"
+                  component={FormikTextInput}
+                />
+                <FastField
+                  className="w-full"
+                  label={t('getStartedView.form.field.label.lastName')}
+                  placeholder={t('getStartedView.form.field.label.lastName')}
+                  name="lastName"
+                  component={FormikTextInput}
+                />
+                <FastField
                   label={t('getStartedView.form.field.label.password')}
-                  placeholder={t('getStartedView.form.field.placeholder.email')}
+                  placeholder={t('getStartedView.form.field.label.password')}
+                  type="password"
                   name="password"
                   component={FormikTextInput}
                 />
                 <FastField
                   label={t('getStartedView.form.field.label.confirmationPassword')}
-                  placeholder={t('getStartedView.form.field.placeholder.email')}
+                  placeholder={t('getStartedView.form.field.label.confirmationPassword')}
+                  type="password"
                   name="confirmationPassword"
                   component={FormikTextInput}
                 />

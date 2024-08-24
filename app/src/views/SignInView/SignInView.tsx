@@ -1,24 +1,16 @@
 import { WebAppRoutes } from '@/common/enum';
-import { routes } from '@/common/utils/routes';
-import { storage } from '@/common/utils/storage';
 import Logo from '@/components/Logo/Logo';
+import icp from '@/services/ipc/icp';
 import { Button } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
 const SignView: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
-  // const navigatorToWebApp = (route: string) => icp.invoker.openExternal(`${import.meta.env.VITE_WEBAPP_URL}${route}`);
-  const navigatorToWebApp = (route: string) => {
-    console.log('====================================');
-    console.log(storage.getToken());
-    console.log('====================================');
-    storage.setToken('token');
-    // window.location.reload();
-    navigate(routes.DEFAULT, { replace: true });
+  const navigatorToWebApp = async (route: string) => {
+    await icp.invoker.minimizeApp();
+    return icp.invoker.openExternal(`${import.meta.env.VITE_WEBAPP_URL}${route}`);
   };
 
   return (

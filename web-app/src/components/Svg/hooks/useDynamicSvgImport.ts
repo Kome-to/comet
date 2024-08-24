@@ -11,8 +11,7 @@ export const useDynamicSvgImport = (iconName: string) => {
     const importSvgIcon = async (): Promise<void> => {
       try {
         if (isString(iconName)) {
-          const path = `../svg/${iconName}.svg?react`;
-          importedIconRef.current = (await import(path)).default;
+          importedIconRef.current = (await import(`../svg/${iconName}.svg?react`)).default;
         }
       } catch (err) {
         setError(err);

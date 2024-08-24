@@ -4,11 +4,15 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { hash } from '../../common/utils/crypto';
 import { routes } from '../../common/utils/routes';
 import Logo from '../../components/Logo/Logo';
 import { FormikTextInput } from '../../components/TextInput/TextInput';
+import api from '../../services/apiService';
 import { SignInParams } from '../../services/types/common';
 import ChangeRegion from '../GetStartedView/ChangeRegion';
+import { get } from 'lodash';
+import notify from '../../common/utils/notify';
 
 const linkCss = 'hover:underline cursor-pointer';
 
@@ -21,15 +25,23 @@ const SignInView: React.FC = () => {
   const signUpSchema = Yup.object().shape({
     email: Yup.string().required(t('form.error.fieldRequired')).email(t('form.error.invalidEmail')),
     password: Yup.string().required(t('form.error.fieldRequired')),
-    // .matches(/^(?=.*[A-Z])/, t('form.error.password.missingRequirement'))
-    // .matches(/^(?=.*[a-z])/, t('form.error.password.missingRequirement'))
-    // .matches(/^(?=.*[0-9])/, t('form.error.password.missingRequirement'))
-    // .matches(/^(?=.*[<'>:;|_~`+=,\\/%"?)(\][^!@#$%^&*.-])/, t('form.error.password.missingRequirement'))
-    // .min(8, t('form.error.password.tooShort')),
   });
 
-  const onSubmit = (value: SignInParams) => {
-    console.log('🚀 ~ onSubmit ~ value:', value);
+  const onSubmit = async ({ email, password }: SignInParams) => {
+    try {
+      const hashedPassword = await hash(password);
+      const data = await api.user.login({ email, password: hashedPassword });
+      console.log('🚀 ~ onSubmit ~ data:', data);
+      notify.success(t('signInView.success.signInSuccessfully'));
+    } catch (e) {
+      console.log(e);
+      const message = get(e, 'response.data.message');
+
+      if (message) {
+        return notify.error(t('signInView.error.emailOrPasswordIncorrect'));
+      }
+      return notify.error(t('error.somethingWrong'));
+    }
   };
 
   const onClickLogo = () => navigator(routes.DEFAULT);
@@ -61,6 +73,7 @@ const SignInView: React.FC = () => {
                   label={t('getStartedView.form.field.label.password')}
                   placeholder={t('getStartedView.form.field.placeholder.email')}
                   name="password"
+                  type="password"
                   component={FormikTextInput}
                 />
                 <Button className="w-full h-12 !text-xl !mt-4" variant="contained" type="submit">
