@@ -6,8 +6,12 @@ class UserRepository {
       where: { id },
     });
   }
+
+  async getByEmail(email: string) {
+    return UserModel.findOne({
+      where: { email },
+    });
+  }
 }
 
-const userRepository = new UserRepository();
-
-export default userRepository;
+export default new UserRepository();

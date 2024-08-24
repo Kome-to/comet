@@ -8,6 +8,8 @@ export default (callback: (req: Request, res: Response, next: NextFunction) => u
     try {
       return await callback(req, res, next);
     } catch (error) {
+      console.log(error);
+
       if (error instanceof Error) {
         next(error);
       } else if (error) {

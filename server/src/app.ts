@@ -1,6 +1,7 @@
 import express, { Application, Router } from 'express';
+import { passportConfiguration } from './common/lib/passport';
 import { handleCommonHttpError, handleRequestValidationError, handleRouteNotFound, handleServerException } from './common/errors';
-
+import passport from 'passport';
 interface ExpressApplication {
   port?: number;
   middleWares?: any;
@@ -20,6 +21,7 @@ export default class App {
   private init(appInit: ExpressApplication) {
     this.middlewares(appInit.middleWares || []);
     this.initRoutes(appInit.apiPrefix, appInit.routes);
+    this.initPassport();
     this.handleError();
   }
 
@@ -31,6 +33,11 @@ export default class App {
 
   private initRoutes(apiPrefix: string, route: Router) {
     this.app.use(apiPrefix, route);
+  }
+
+  private initPassport() {
+    passportConfiguration(passport);
+    this.app.use(passport.initialize());
   }
 
   private handleError() {

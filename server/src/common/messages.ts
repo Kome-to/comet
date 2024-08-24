@@ -25,6 +25,12 @@ export default {
     permissionDenied: 'Permission denied',
   },
 
+  user: {
+    exist: 'user.exist',
+    notFound: 'user.notFound',
+    passwordIncorrect: 'user.passwordIncorrect',
+  },
+
   upload: {
     fileAvatarExtensionNotAllow: 'The file extension is not supported',
     uploadLimitExceeded: 'toast.upload.limitExceeded',

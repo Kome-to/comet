@@ -53,4 +53,7 @@ export default {
   assetsPath: process.env.ASSETS_PATH || 'assets/data',
 
   salt: process.env.SALT || '10',
+
+  jwtSecret: process.env.JWT_SECRET || 'comet',
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN || '1d',
 };
