@@ -1,3 +1,6 @@
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
@@ -10,50 +13,39 @@ module.exports = {
     try {
       transaction = await queryInterface.sequelize.transaction();
       await queryInterface.createTable(
-        'user',
+        'members',
         {
           id: {
             type: Sequelize.UUID,
             primaryKey: true,
             defaultValue: Sequelize.UUIDV4,
           },
-          firstName: {
-            type: Sequelize.STRING(50),
-            allowNull: false,
-            field: 'first_name',
+          channelId: {
+            type: Sequelize.UUID,
+            references: {
+              model: 'channels',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            field: 'channel_id',
           },
-          lastName: {
-            type: Sequelize.STRING(50),
-            allowNull: false,
-            field: 'last_name',
+          userId: {
+            type: Sequelize.UUID,
+            references: {
+              model: 'user',
+              key: 'id',
+            },
+            field: 'user_id',
           },
-          email: {
-            type: Sequelize.STRING(100),
+          role: {
+            type: Sequelize.ENUM('owner', 'admin', 'member', 'none'),
             allowNull: false,
-            unique: true,
-            field: 'email',
+            defaultValue: 'none',
           },
-          isActive: {
-            type: Sequelize.BOOLEAN,
-            allowNull: false,
-            defaultValue: false,
-            field: 'is_active',
-          },
-          password: {
-            type: Sequelize.STRING(200),
-            allowNull: false,
-            field: 'password',
-          },
-          publicKey: {
+          eChannelKey: {
             type: Sequelize.TEXT,
             allowNull: false,
-            field: 'public_key',
-          },
-
-          ePrivateKey: {
-            type: Sequelize.TEXT,
-            allowNull: false,
-            field: 'e_private_key',
+            field: 'e_channel_key',
           },
           createdAt: {
             type: Sequelize.DATE,
@@ -81,11 +73,10 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-
     let transaction;
     try {
       transaction = await queryInterface.sequelize.transaction();
-      await queryInterface.dropTable('user', { transaction });
+      await queryInterface.dropTable('members', { transaction });
       await transaction.commit();
     } catch (_) {
       if (transaction) {

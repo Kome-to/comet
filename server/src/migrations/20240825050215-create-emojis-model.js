@@ -1,3 +1,6 @@
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
@@ -10,50 +13,34 @@ module.exports = {
     try {
       transaction = await queryInterface.sequelize.transaction();
       await queryInterface.createTable(
-        'user',
+        'emojis',
         {
           id: {
             type: Sequelize.UUID,
             primaryKey: true,
             defaultValue: Sequelize.UUIDV4,
           },
-          firstName: {
+          userId: {
+            type: Sequelize.UUID,
+            references: {
+              model: 'user',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            field: 'user_id',
+          },
+          chatId: {
+            type: Sequelize.UUID,
+            references: {
+              model: 'chat',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            field: 'chat_id',
+          },
+          unicode: {
             type: Sequelize.STRING(50),
             allowNull: false,
-            field: 'first_name',
-          },
-          lastName: {
-            type: Sequelize.STRING(50),
-            allowNull: false,
-            field: 'last_name',
-          },
-          email: {
-            type: Sequelize.STRING(100),
-            allowNull: false,
-            unique: true,
-            field: 'email',
-          },
-          isActive: {
-            type: Sequelize.BOOLEAN,
-            allowNull: false,
-            defaultValue: false,
-            field: 'is_active',
-          },
-          password: {
-            type: Sequelize.STRING(200),
-            allowNull: false,
-            field: 'password',
-          },
-          publicKey: {
-            type: Sequelize.TEXT,
-            allowNull: false,
-            field: 'public_key',
-          },
-
-          ePrivateKey: {
-            type: Sequelize.TEXT,
-            allowNull: false,
-            field: 'e_private_key',
           },
           createdAt: {
             type: Sequelize.DATE,
@@ -81,11 +68,10 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-
     let transaction;
     try {
       transaction = await queryInterface.sequelize.transaction();
-      await queryInterface.dropTable('user', { transaction });
+      await queryInterface.dropTable('emojis', { transaction });
       await transaction.commit();
     } catch (_) {
       if (transaction) {

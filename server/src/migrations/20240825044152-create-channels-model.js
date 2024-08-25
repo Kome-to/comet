@@ -1,3 +1,6 @@
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     /**
@@ -10,50 +13,36 @@ module.exports = {
     try {
       transaction = await queryInterface.sequelize.transaction();
       await queryInterface.createTable(
-        'user',
+        'channels',
         {
           id: {
             type: Sequelize.UUID,
             primaryKey: true,
             defaultValue: Sequelize.UUIDV4,
           },
-          firstName: {
+          workspaceId: {
+            type: Sequelize.UUID,
+            references: {
+              model: 'workspaces',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            field: 'workspace_id',
+          },
+          name: {
             type: Sequelize.STRING(50),
             allowNull: false,
-            field: 'first_name',
           },
-          lastName: {
-            type: Sequelize.STRING(50),
-            allowNull: false,
-            field: 'last_name',
-          },
-          email: {
-            type: Sequelize.STRING(100),
-            allowNull: false,
-            unique: true,
-            field: 'email',
-          },
-          isActive: {
+          isPrivate: {
             type: Sequelize.BOOLEAN,
             allowNull: false,
             defaultValue: false,
-            field: 'is_active',
-          },
-          password: {
-            type: Sequelize.STRING(200),
-            allowNull: false,
-            field: 'password',
+            field: 'is_private',
           },
           publicKey: {
             type: Sequelize.TEXT,
             allowNull: false,
             field: 'public_key',
-          },
-
-          ePrivateKey: {
-            type: Sequelize.TEXT,
-            allowNull: false,
-            field: 'e_private_key',
           },
           createdAt: {
             type: Sequelize.DATE,
@@ -81,11 +70,10 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-
     let transaction;
     try {
       transaction = await queryInterface.sequelize.transaction();
-      await queryInterface.dropTable('user', { transaction });
+      await queryInterface.dropTable('channels', { transaction });
       await transaction.commit();
     } catch (_) {
       if (transaction) {

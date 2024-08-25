@@ -5,6 +5,7 @@ import morgan from 'morgan';
 
 import authRoutes from './routes/Auth';
 import userRoutes from './routes/User';
+import workspaceRoutes from './routes/Workspace';
 
 dayjs.extend(utc);
 
@@ -26,6 +27,7 @@ router.use(
 router.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
 router.use('/auth', authRoutes);
-router.use('/users', userRoutes);
+router.use('/user', userRoutes);
+router.use('/workspace', workspaceRoutes);
 
 export default router;

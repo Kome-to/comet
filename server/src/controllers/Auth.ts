@@ -3,6 +3,7 @@ import httpStatus from 'http-status';
 import NotFoundError from '../common/errors/types/NotFoundError';
 import UnauthorizedError from '../common/errors/types/UnauthorizedError';
 import response from '../common/helpers/response';
+import widthTransaction from '../common/hooks/withTransaction';
 import { hashPassword, verifyPassword } from '../common/lib/bcrypt';
 import { generateToken } from '../common/lib/passport';
 import messages from '../common/messages';
@@ -40,13 +41,18 @@ class AuthController extends AuthServices {
 
     const hashedPassword = await hashPassword(password);
 
-    await this.createUser({
-      email,
-      password: hashedPassword,
-      firstName,
-      lastName,
-      publicKey,
-      ePrivateKey,
+    await widthTransaction(async (trans) => {
+      await this.createUser(
+        {
+          email,
+          password: hashedPassword,
+          firstName,
+          lastName,
+          publicKey,
+          ePrivateKey,
+        },
+        trans,
+      );
     });
 
     return response.success(res);

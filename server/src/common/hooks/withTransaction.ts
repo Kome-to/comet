@@ -1,7 +1,6 @@
-import { Transaction } from 'sequelize/types';
-
+import { Transaction } from 'sequelize';
 import BadRequestError from '../errors/types/BadRequestError';
-import Sequelize from '../lib/Sequelize';
+import Sequelize from '../lib/sequelize';
 import messages from '../messages';
 
 const withTransaction = async (transactionCallBack: (trans: Transaction) => Promise<any>) => {

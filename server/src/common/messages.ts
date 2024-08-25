@@ -31,6 +31,10 @@ export default {
     passwordIncorrect: 'user.passwordIncorrect',
   },
 
+  workspace: {
+    exist: 'workspace.exist',
+  },
+
   upload: {
     fileAvatarExtensionNotAllow: 'The file extension is not supported',
     uploadLimitExceeded: 'toast.upload.limitExceeded',
