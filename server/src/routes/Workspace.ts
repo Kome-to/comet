@@ -8,5 +8,6 @@ import authentication from '../middlewares/authentication';
 const router = express.Router();
 
 router.post('/', [authentication], validate(validators.create), wrapper(WorkspaceController.create));
+router.get('/me', [authentication], wrapper(WorkspaceController.getByUser));
 
 export default router;

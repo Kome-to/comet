@@ -12,3 +12,8 @@ export interface UserAttributes {
 }
 
 export type UserCreation = Omit<UserAttributes, 'id'>;
+
+export interface GetUserQuery {
+  email?: string;
+  id?: string;
+}
