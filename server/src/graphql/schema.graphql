@@ -1,0 +1,29 @@
+type Channel {
+  id: ID!
+}
+
+type Chat {
+  id: ID!
+  userId: String!
+  channelId: String!
+  content: String
+  parentId: String
+  totalReplies: Integer!
+  eSessionKey: String!
+
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+
+type Query {
+  chats: [Book]!
+}
+
+type Mutation {
+  addBook(title: String, author: String): Book
+}
+
+type Subscription {
+  books: [Book]
+}

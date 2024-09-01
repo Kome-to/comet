@@ -1,20 +1,33 @@
 import express, { Application, Router } from 'express';
-import { passportConfiguration } from './common/lib/passport';
-import { handleCommonHttpError, handleRequestValidationError, handleRouteNotFound, handleServerException } from './common/errors';
+import http from 'http';
+import https from 'https';
 import passport from 'passport';
+import Apollo from './apollo';
+import { handleCommonHttpError, handleRequestValidationError, handleRouteNotFound, handleServerException } from './common/errors';
+import { passportConfiguration } from './common/lib/passport';
 interface ExpressApplication {
   port?: number;
   middleWares?: any;
   apiPrefix?: string;
   routes: Router;
+  graphqlPath: string;
+  certificate: { cert: Buffer; key: Buffer };
 }
 
 export default class App {
   private app: Application = express();
+  private apollo: Apollo;
   private port: number;
+  private graphqlPath: string;
+  private httpsServer: https.Server;
+  private httpServer: http.Server;
 
   constructor(appInit: ExpressApplication) {
     this.port = appInit.port;
+    this.graphqlPath = appInit.graphqlPath;
+    this.httpServer = http.createServer(this.app);
+    this.httpsServer = https.createServer(appInit.certificate, this.app);
+
     this.init(appInit);
   }
 
@@ -23,6 +36,7 @@ export default class App {
     this.initRoutes(appInit.apiPrefix, appInit.routes);
     this.initPassport();
     this.handleError();
+    this.initApollo();
   }
 
   private middlewares(middleWares: []) {
@@ -47,9 +61,22 @@ export default class App {
     this.app.use(handleServerException);
   }
 
+  private initApollo = () => {
+    this.apollo = new Apollo(this.graphqlPath, this.httpServer, this.httpsServer);
+    this.apollo.start(this.app);
+  };
+
   public listen(): void {
-    this.app.listen(this.port, () => {
-      console.info(`App is listening on port ${this.port}`);
+    // this.httpServer.listen(this.port, () => {
+    //   console.log('🚀 http: ', `http://localhost:${this.port}`);
+    //   console.log('🚀 ws: ', `http://localhost:${this.port}${this.graphqlPath}`);
+    // });
+    this.httpsServer.listen(this.port, () => {
+      console.log('🚀 Server is ready 🚀');
+
+      console.log('[https] ', `https://${process.env.HOST}:${this.port}`);
+      console.log('[graphql] ', `https://${process.env.HOST}:${this.port}${this.graphqlPath}`);
+      console.log('[wss] ', `wss://${process.env.HOST}:${this.port}${this.graphqlPath}`);
     });
   }
 }

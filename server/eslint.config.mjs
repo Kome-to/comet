@@ -25,7 +25,7 @@ export default [
   {
     rules: {
       'prettier/prettier': ['error', { usePrettierrc: true }],
-      'arrow-body-style': ['error', 'always'],
+      'arrow-body-style': 'off',
       'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
       'import/extensions': 'off',
       'import/no-unresolved': 'off',

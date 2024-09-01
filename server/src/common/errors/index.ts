@@ -35,6 +35,7 @@ export const isValidationError = (candidate: unknown): candidate is ValidationEr
  */
 
 export const handleRouteNotFound = (req: Request, _res: Response, next: NextFunction): void => {
+  if (req.originalUrl === process.env.GRAPHQL_PATH) return next();
   const error = new NotFoundError('Method does not exist');
   next(error);
 };
