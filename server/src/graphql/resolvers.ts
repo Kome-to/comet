@@ -1,14 +1,12 @@
 import { PubSub } from 'graphql-subscriptions';
+import Workspace from './functions/Workspace';
 
 export const initResolvers = (pubsub: PubSub) => ({
   Query: {
     chats: () => [],
   },
   Mutation: {
-    addBook: (_, book) => {
-      pubsub.publish('EVENT_CREATED', { book: book });
-      return book;
-    },
+    createWorkspace: Workspace.createWorkspace(pubsub),
   },
   Subscription: {
     books: {

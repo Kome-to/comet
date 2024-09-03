@@ -1,5 +1,68 @@
+input CreateChannelInput {
+  id: ID
+  name: String!
+  isPrivate: Boolean!
+  publicKey: String!
+}
+
+input CreateMemberInput {
+  userId: String!
+  channelId: String!
+  role: String!
+  eChannelKey: String!
+}
+
+input CreateWorkspaceInput {
+  name: String!
+
+  channels: [CreateChannelInput]!
+  members: [CreateMemberInput]!
+}
+
+type Workspace {
+  id: ID!
+  userId: String!
+  name: String!
+
+  channels: [Channel]
+
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Member {
+  id: ID!
+  channelId: String!
+  userId: String!
+  role: String!
+  eChannelKey: String!
+
+  user: User
+}
+
+type User {
+  id: ID!
+  publicKey: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  isActive: Boolean!
+
+  createdAt: String!
+  updatedAt: String!
+}
+
 type Channel {
   id: ID!
+  workspaceId: String!
+  name: String!
+  isPrivate: Boolean!
+  publicKey: String!
+
+  members: [Member]
+
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Chat {
@@ -8,22 +71,21 @@ type Chat {
   channelId: String!
   content: String
   parentId: String
-  totalReplies: Integer!
+  totalReplies: Int!
   eSessionKey: String!
 
-  createdAt: Date!
-  updatedAt: Date!
+  createdAt: String!
+  updatedAt: String!
 }
 
-
 type Query {
-  chats: [Book]!
+  chats: [Chat]!
 }
 
 type Mutation {
-  addBook(title: String, author: String): Book
+  createWorkspace(input: CreateWorkspaceInput): Workspace
 }
 
 type Subscription {
-  books: [Book]
+  books: [Chat]
 }

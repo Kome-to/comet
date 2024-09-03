@@ -13,30 +13,25 @@ import { WorkspaceCreateParams } from '../interfaces/Workspace';
 
 class WorkspaceController extends WorkspaceServices {
   public create = async (req: Request<{}, {}, WorkspaceCreateParams>, res: Response) => {
-    const { name, members, channel } = req.body;
-    console.log('🚀 ~ WorkspaceController ~ create= ~ name, members, channel:', name, members, channel);
-
-    const existWorkspace = await WorkspaceRepository.getByUser(req.user.id, name);
-
-    if (existWorkspace) {
-      throw new BadRequestError(messages.workspace.exist);
-    }
-
-    const existUsers = await UserRepository.getByEmails(members);
-
-    await withTransaction(async (trans) => {
-      const workspace = await this.createWorkspace({ name, userId: req.user.id }, trans);
-      const createdChannel = await ChannelController.createChannel(
-        { workspaceId: workspace.id, name: channel.name, publicKey: channel.publicKey, isPrivate: false },
-        trans,
-      );
-      // const memberCreations = existUsers.map((u) => {
-      //   return { userId: u.id, channelId: createdChannel.id, role: 'member', eChannelKey };
-      // });
-      // await MemberController.createMembers({ userId }, trans);
-    });
-
-    return response.success(res);
+    // const { name, members, channel } = req.body;
+    // console.log('🚀 ~ WorkspaceController ~ create= ~ name, members, channel:', name, members, channel);
+    // const existWorkspace = await WorkspaceRepository.getByUser(req.user.id, name);
+    // if (existWorkspace) {
+    //   throw new BadRequestError(messages.workspace.exist);
+    // }
+    // const existUsers = await UserRepository.getByEmails(members);
+    // await withTransaction(async (trans) => {
+    //   const workspace = await this.createWorkspace({ name, userId: req.user.id }, trans);
+    //   const createdChannel = await ChannelController.createChannel(
+    //     { workspaceId: workspace.id, name: channel.name, publicKey: channel.publicKey, isPrivate: false },
+    //     trans,
+    // );
+    // const memberCreations = existUsers.map((u) => {
+    //   return { userId: u.id, channelId: createdChannel.id, role: 'member', eChannelKey };
+    // });
+    // await MemberController.createMembers({ userId }, trans);
+    // });
+    // return response.success(res);
   };
 
   public getByUser = async (req: Request, res: Response) => {

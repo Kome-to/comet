@@ -18,7 +18,7 @@ export default {
     failed: 'Either email or password is incorrect. Please try again',
     incorrectPassword: 'auth.incorrectPassword',
     userNotFound: 'User not found',
-    invalidToken: 'Token invalid',
+    invalidToken: 'auth.tokenInvalid',
     invalidVerificationCode: 'verificationCode.invalid',
     expiredVerificationCode: 'verificationCode.expired',
     maxAttemptsReach: 'verificationCode.maxAttemptsReach',

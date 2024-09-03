@@ -23,8 +23,8 @@ class UserController extends UserServices {
     if (!user) {
       return response.success(res, null);
     }
-    const { publicKey, firstName, lastName, email: userEmail } = user;
-    return response.success(res, { email: userEmail, publicKey, firstName, lastName });
+    const { publicKey, firstName, lastName, id: userId, email: userEmail } = user;
+    return response.success(res, { id: userId, email: userEmail, publicKey, firstName, lastName });
   };
 }
 
