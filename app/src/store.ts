@@ -2,17 +2,21 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import commonSlice from './services/controllers/common/CommonSlice';
+import userSlice from './services/controllers/user/UserSlice';
+import workspaceSlice from './services/controllers/workspace/WorkspaceSlice';
 
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['common'],
+  blacklist: ['common', 'workspace', 'user'],
 };
 
 const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
     common: commonSlice,
+    workspace: workspaceSlice,
+    user: userSlice,
   }),
 );
 
@@ -22,7 +26,7 @@ const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }),
-  devTools: import.meta.env.DEV,
+  devTools: true,
 });
 
 export const persistor = persistStore(store);

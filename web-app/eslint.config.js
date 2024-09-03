@@ -19,5 +19,6 @@ export default tseslint.config({
   rules: {
     ...reactHooks.configs.recommended.rules,
     '@typescript-eslint/no-explicit-any': 'off',
+    'react-hooks/exhaustive-deps': 'off',
   },
 });

@@ -5,7 +5,7 @@ interface MessageBlockProps {}
 
 const MessageBlock: React.FC<MessageBlockProps> = ({}) => {
   return (
-    <div className="flex gap-2 hover:bg-[#222529] px-4 py-2 select-text">
+    <div className="flex gap-2 hover:bg-ex-bg-1 px-4 py-2 select-text">
       <Avatar className="h-9 w-[36px]" name="Kometo" />
       <div className="flex flex-1 flex-col">
         <div className="flex items-center gap-2">

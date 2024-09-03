@@ -5,6 +5,7 @@ import { useDynamicSvgImport } from './hooks/useDynamicSvgImport';
 export enum SvgName {
   LOGO = 'logo',
   INFO = 'info',
+  GET_STATED_WORKSPACE = 'get-started-workspaces',
 }
 
 interface SvgProps {

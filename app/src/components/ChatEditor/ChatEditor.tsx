@@ -67,7 +67,7 @@ const StyledEditor = styled.div``;
 
 const ChatEditor: React.FC<ChatEditorProps> = ({ className }) => {
   const wrapperClasses = classNames(
-    'text-ex-text-primary border-[#565856] border-solid border-[1px] rounded-[8px] bg-[#222529] min-h-20',
+    'text-ex-text-primary border-[#565856] border-solid border-[1px] rounded-[8px] bg-ex-bg-1 min-h-20',
     className,
   );
 

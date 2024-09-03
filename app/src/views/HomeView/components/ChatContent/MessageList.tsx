@@ -1,4 +1,4 @@
-import MessageBlock from '@/common/MessageBlock/MessageBlock';
+import MessageBlock from '@/components/MessageBlock/MessageBlock';
 import classNames from 'classnames';
 import React from 'react';
 

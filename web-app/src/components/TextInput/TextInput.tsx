@@ -80,7 +80,6 @@ const TextInput: React.FC<TextInputProps> = ({
           fullWidth
           error={!!error}
           helperText={helperText}
-          id="outlined-multiline-flexible"
           label={label}
           placeholder={placeholder}
           variant="outlined"

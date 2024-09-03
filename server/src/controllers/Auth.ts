@@ -28,7 +28,7 @@ class AuthController extends AuthServices {
 
     const token = generateToken(existUser);
 
-    return response.success(res, { token, user: existUser });
+    return response.success(res, token);
   };
 
   public signUp = async (req: Request<{}, {}, SignUpParams>, res: Response) => {

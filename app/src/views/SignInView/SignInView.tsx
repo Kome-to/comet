@@ -4,9 +4,11 @@ import icp from '@/services/ipc/icp';
 import { Button } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLoginListener } from './useLoginListener';
 
 const SignView: React.FC = () => {
   const { t } = useTranslation();
+  useLoginListener();
 
   const navigatorToWebApp = async (route: string) => {
     await icp.invoker.minimizeApp();

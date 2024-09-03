@@ -1,9 +1,11 @@
+import { ApolloProvider } from '@apollo/client';
 import { createTheme, ThemeProvider } from '@mui/material';
 import React, { lazy } from 'react';
 import { Provider } from 'react-redux';
-import { HashRouter, Outlet, Route, Routes } from 'react-router-dom';
+import { HashRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import styled from 'styled-components';
+import apolloClient from './apollo';
 import './App.scss';
 import { authGuard, routes, unAuthGuard } from './common/utils/routes';
 import LoadingView from './components/Loading/LoadingView';
@@ -14,6 +16,7 @@ import store, { persistor } from './store';
 
 const SignInView = lazy(() => import('./views/SignInView/SignInView'));
 const HomeView = lazy(() => import('./views/HomeView/HomeView'));
+const WorkspaceCreationView = lazy(() => import('./views/WorkspaceCreationView/WorkspaceCreationView'));
 
 const theme = createTheme({
   palette: {
@@ -22,6 +25,9 @@ const theme = createTheme({
     },
     secondary: {
       main: '#ffffff',
+    },
+    info: {
+      main: '#d1d2d3',
     },
   },
 });
@@ -54,21 +60,27 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <React.Suspense fallback={<LoadingView open />}>
-          <HashRouter>
-            <ThemeProvider theme={theme}>
-              <Routes>
-                <Route path="" element={<PrivateRoute guards={[authGuard]} element={<TitleBarLayout auth />} />}>
-                  <Route index path={routes.DEFAULT} element={<HomeView />} />
-                  <Route index path="*" element={<HomeView />} />
-                </Route>
-                <Route path="" element={<PrivateRoute guards={[unAuthGuard]} element={<TitleBarLayout />} />}>
-                  <Route index path={routes.SIGN_IN} element={<SignInView />} />
-                </Route>
-              </Routes>
-            </ThemeProvider>
-          </HashRouter>
-        </React.Suspense>
+        <ApolloProvider client={apolloClient}>
+          <React.Suspense fallback={<LoadingView open />}>
+            <HashRouter>
+              <ThemeProvider theme={theme}>
+                <Routes>
+                  <Route path="" element={<PrivateRoute guards={[authGuard]} element={<TitleBarLayout auth />} />}>
+                    <Route path={routes.DEFAULT} element={<PrivateRoute guards={[authGuard]} element={<WorkspaceCreationView />} />} />
+                    {/* <Route index path={routes.DEFAULT} element={<HomeView />} />
+                  <Route path={routes.DMS} element={<HomeView />} />
+                  <Route path={routes.ACTIVITY} element={<HomeView />} /> */}
+                    <Route path="/" element={<Navigate to={routes.DEFAULT} replace />} />
+                    <Route path="/*" element={<Navigate to={routes.DEFAULT} replace />} />
+                  </Route>
+                  <Route path="" element={<PrivateRoute guards={[unAuthGuard]} element={<TitleBarLayout />} />}>
+                    <Route index path={routes.SIGN_IN} element={<SignInView />} />
+                  </Route>
+                </Routes>
+              </ThemeProvider>
+            </HashRouter>
+          </React.Suspense>
+        </ApolloProvider>
       </PersistGate>
     </Provider>
   );

@@ -7,11 +7,13 @@ export interface CommonState {
       [name: string]: boolean;
     };
   };
+  hashKey: string;
 }
 
 const initialState: CommonState = {
   loading: false,
   ui: { dialog: {} },
+  hashKey: '',
 };
 
 export const commonSlice = createSlice({
@@ -30,9 +32,12 @@ export const commonSlice = createSlice({
     closeModals: (state, action: PayloadAction<string>) => {
       state.ui.dialog = { ...state.ui.dialog, [action.payload]: false };
     },
+    setHashKey: (state, action: PayloadAction<string>) => {
+      state.hashKey = action.payload;
+    },
   },
 });
 
-export const { setLoading, toggleModals, closeModals } = commonSlice.actions;
+export const { setLoading, toggleModals, closeModals, setHashKey } = commonSlice.actions;
 
 export default commonSlice.reducer;

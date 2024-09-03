@@ -7,6 +7,7 @@ export enum ICPEvents {
   APP_OPEN_EXTERNAL = 'invoke/open-external',
 
   GET_IS_MAXIMIZED = 'get/is-maximized',
+  GET_TOKEN = 'get/token',
 }
 
 export enum ListenerAction {

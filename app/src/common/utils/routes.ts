@@ -1,7 +1,12 @@
 import { storage } from './storage';
 
 export const routes = {
-  DEFAULT: '/',
+  DEFAULT: '/workspace/create',
+  WORKSPACE: '/workspace/:id',
+
+  DMS: '/dms',
+  ACTIVITY: '/activity',
+
   SIGN_IN: '/sign-in',
 };
 

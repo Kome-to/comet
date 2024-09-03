@@ -1,28 +1,32 @@
 import { Button } from '@mui/material';
 import { FastField, Form, Formik } from 'formik';
+import { get } from 'lodash';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { hash } from '../../common/utils/crypto';
+import notify from '../../common/utils/notify';
 import { routes } from '../../common/utils/routes';
 import Logo from '../../components/Logo/Logo';
 import { FormikTextInput } from '../../components/TextInput/TextInput';
 import api from '../../services/apiService';
 import { SignInParams } from '../../services/types/common';
 import ChangeRegion from '../GetStartedView/ChangeRegion';
-import { get } from 'lodash';
-import notify from '../../common/utils/notify';
+import { storage } from '../../common/utils/storage';
+import { useDispatch } from 'react-redux';
+import { setHashKey } from '../../services/controllers/common/CommonSlice';
 
 const linkCss = 'hover:underline cursor-pointer';
 
 const SignInView: React.FC = () => {
   const { t } = useTranslation();
   const navigator = useNavigate();
+  const dispatch = useDispatch();
 
   const defaultValue: SignInParams = { email: '', password: '' };
 
-  const signUpSchema = Yup.object().shape({
+  const signInSchema = Yup.object().shape({
     email: Yup.string().required(t('form.error.fieldRequired')).email(t('form.error.invalidEmail')),
     password: Yup.string().required(t('form.error.fieldRequired')),
   });
@@ -30,9 +34,11 @@ const SignInView: React.FC = () => {
   const onSubmit = async ({ email, password }: SignInParams) => {
     try {
       const hashedPassword = await hash(password);
-      const data = await api.user.login({ email, password: hashedPassword });
-      console.log('🚀 ~ onSubmit ~ data:', data);
+      const { token } = await api.user.login({ email, password: hashedPassword });
       notify.success(t('signInView.success.signInSuccessfully'));
+      storage.setToken(token);
+      dispatch(setHashKey(hashedPassword));
+      navigator(routes.WORKSPACE_SELECTION);
     } catch (e) {
       console.log(e);
       const message = get(e, 'response.data.message');
@@ -51,15 +57,17 @@ const SignInView: React.FC = () => {
     <div className="container max-w-[768px] h-screen mx-auto flex flex-col">
       <Logo onClick={onClickLogo} wrapperClassName="mx-auto py-4" className="w-48" />
       <div className="grow flex flex-col flex-grow">
-        <div className="text-center">
-          <div className="text-5xl font-bold mb-3 sm:text-4xl">{t('signInView.text.title.signInToComet')}</div>
-          <div className="text-lg mb-8">
-            <span>{t('getStartedView.text.subTitle.enterEmailAndPassword.1')}</span>
-            <span className="px-1 font-medium">{t('getStartedView.text.subTitle.enterEmailAndPassword.2')}</span>
+        {
+          <div className="text-center">
+            <div className="text-5xl font-bold mb-3 sm:text-4xl">{t('signInView.text.title.signInToComet')}</div>
+            <div className="text-lg mb-8">
+              <span>{t('getStartedView.text.subTitle.enterEmailAndPassword.1')}</span>
+              <span className="px-1 font-medium">{t('getStartedView.text.subTitle.enterEmailAndPassword.2')}</span>
+            </div>
           </div>
-        </div>
+        }
         <div className="flex flex-col grow items-center w-96 mx-auto">
-          <Formik onSubmit={onSubmit} validateOnChange initialValues={defaultValue} validationSchema={signUpSchema}>
+          <Formik onSubmit={onSubmit} validateOnChange initialValues={defaultValue} validationSchema={signInSchema}>
             {() => (
               <Form className="w-full">
                 <FastField

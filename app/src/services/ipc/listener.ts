@@ -9,4 +9,6 @@ export class IcpListener {
   }
 
   maximizedWindow: ListenerFunction = async (action, cb) => this.icp[action](ICPEvents.GET_IS_MAXIMIZED, cb);
+
+  loginFromWeb: ListenerFunction = async (action, cb) => this.icp[action](ICPEvents.GET_TOKEN, cb);
 }

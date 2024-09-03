@@ -1,4 +1,6 @@
-import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, session, shell } from 'electron';
+import { ICPEvents } from '../../src/services/types/icpType';
+import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -57,6 +59,8 @@ const createWindow = async () => {
       // Consider using contextBridge.exposeInMainWorld
       // Read more on https://www.electronjs.org/docs/latest/tutorial/context-isolation
       // contextIsolation: false,
+
+      allowRunningInsecureContent: true,
     },
   });
 
@@ -64,7 +68,8 @@ const createWindow = async () => {
     // #298
     win.loadURL(VITE_DEV_SERVER_URL);
     // Open devTool if the app is not packaged
-    win.webContents.openDevTools();
+
+    // win.webContents.openDevTools();
   } else {
     win.loadFile(indexHtml);
   }
@@ -95,35 +100,30 @@ if (!gotTheLock) {
   app.quit();
 } else {
   app.on('second-instance', (event, commandLine, workingDirectory) => {
+    if (!win) return;
+
     // Someone tried to run a second instance, we should focus our window.
-    if (win) {
-      if (win.isMinimized()) win.restore();
-      win.focus();
-    }
+    if (win.isMinimized()) win.restore();
+    win.focus();
     // the commandLine is array of strings in which last element is deep link url
-    dialog.showErrorBox('Welcome Back', `You arrived from: ${commandLine.pop()}`);
+    const popItem = commandLine.pop();
+    if (!popItem) return;
+    const url = new URL(popItem);
+    const host = url.hostname;
+
+    if (host === 'open') {
+      const params = url.searchParams;
+      const token = params.get('token');
+      const hashKey = params.get('hashKey');
+      win.webContents.send(ICPEvents.GET_TOKEN, token, hashKey?.replaceAll(' ', '+'));
+    }
   });
 }
 
-// Handle the protocol. In this case, we choose to show an Error Box.
-app.on('open-url', (event, url) => {
-  dialog.showErrorBox('Welcome Back', `You arrived from: ${url}`);
-});
-
 app.whenReady().then(createWindow);
 
-app.on('window-all-closed', () => {
-  win = null;
-  if (process.platform !== 'darwin') app.quit();
-});
-
-app.on('second-instance', () => {
-  if (win) {
-    // Focus on the main window if the user tried to open another
-    if (win.isMinimized()) win.restore();
-    win.focus();
-  }
-});
+// Handle the protocol. In this case, we choose to show an Error Box.
+app.on('open-url', (event, url) => {});
 
 app.on('activate', () => {
   const allWindows = BrowserWindow.getAllWindows();
@@ -134,13 +134,17 @@ app.on('activate', () => {
   }
 });
 
+app.on('window-all-closed', () => {
+  win = null;
+  if (process.platform !== 'darwin') app.quit();
+});
+
 // New window example arg: new windows url
 ipcMain.handle('open-win', (_, arg) => {
   const childWindow = new BrowserWindow({
     webPreferences: {
       preload,
-      nodeIntegration: true,
-      contextIsolation: false,
+      allowRunningInsecureContent: true,
     },
   });
 
@@ -150,3 +154,5 @@ ipcMain.handle('open-win', (_, arg) => {
     childWindow.loadFile(indexHtml, { hash: arg });
   }
 });
+
+app.commandLine.appendSwitch('ignore-certificate-errors');

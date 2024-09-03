@@ -6,6 +6,8 @@ export const storageKey = {
 
 export enum CookieKeys {
   token = 'token',
+  publicKey = 'publicKey',
+  privateKey = 'privateKey',
 }
 
 const cookies = new Cookies();

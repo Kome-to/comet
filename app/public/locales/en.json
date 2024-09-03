@@ -7,6 +7,7 @@
   "signInView.text.info.navigateToBrowser": "We'll take you to your web browser to sign in and then bring back here",
   "signInView.text.info.createNewWorkspace": "Create a new workspace",
   "signInView.text.info.newInComet": "Is your team is new in Comet",
-  "signInView.button.signIn": "Sign In to Comet"
+  "signInView.button.signIn": "Sign In to Comet",
 
+  "sideBar.text.signOutOf": "Sign out of {{name}}"
 }

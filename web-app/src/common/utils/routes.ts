@@ -5,13 +5,15 @@ export const routes = {
   SIGN_IN: '/sign-in',
   WELCOME: '/welcome',
   GET_STATED: '/get-stated',
+
+  WORKSPACE_SELECTION: '/workspace-selection',
 };
 
 export interface RouteGuard {
   /**
    * If the condition is not met then either redirect to onFail or don't render the route
    */
-  failCondition: boolean;
+  failCondition: () => boolean;
   /**
    * If request is still in progress we don't want to call onFail yet
    */
@@ -23,13 +25,13 @@ export interface RouteGuard {
 }
 
 export const unAuthGuard: RouteGuard = {
-  failCondition: !!storage.getToken(),
+  failCondition: () => !!storage.getToken(),
   requestDone: true,
   onFail: routes.DEFAULT,
 };
 
 export const authGuard: RouteGuard = {
-  failCondition: !storage.getToken(),
+  failCondition: () => !storage.getToken(),
   requestDone: true,
   onFail: routes.SIGN_IN,
 };
