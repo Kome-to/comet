@@ -8,6 +8,10 @@ export enum Sex {
   FEMALE = 'female',
 }
 
+export enum SubscriptionEvents {
+  WORKSPACE_CREATE_EVENT = 'WORKSPACE_CREATE_EVENT',
+}
+
 export enum UserRole {}
 
 export enum NotificationEvent {}
