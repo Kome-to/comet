@@ -50,8 +50,6 @@ const WorkspaceCreationView: React.FC = () => {
   }, [currentUser]);
 
   const handleNext = () => {
-    if (!currentUser) return;
-
     if (step >= 3) {
       const channels: ChannelCreateParams[] = DEFAULT_CHANNEL.concat([channel]).map((c, i) => ({
         id: uuidV4(),
@@ -92,6 +90,9 @@ const WorkspaceCreationView: React.FC = () => {
     }
     setStep(step + 1);
   };
+  console.log('🚀 ~ handleNext ~ currentUser:', currentUser);
+  console.log('🚀 ~ handleNext ~ currentUser:', currentUser);
+  console.log('🚀 ~ handleNext ~ currentUser:', currentUser);
 
   const onInvite = (user: InviteUser) => {
     setInvites([...invites.filter((e) => e.email !== user.email), user]);

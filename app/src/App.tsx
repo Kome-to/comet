@@ -67,9 +67,9 @@ const App: React.FC = () => {
                 <Routes>
                   <Route path="" element={<PrivateRoute guards={[authGuard]} element={<TitleBarLayout auth />} />}>
                     <Route path={routes.DEFAULT} element={<PrivateRoute guards={[authGuard]} element={<WorkspaceCreationView />} />} />
-                    {/* <Route index path={routes.DEFAULT} element={<HomeView />} />
-                  <Route path={routes.DMS} element={<HomeView />} />
-                  <Route path={routes.ACTIVITY} element={<HomeView />} /> */}
+                    <Route index path={routes.DEFAULT} element={<PrivateRoute guards={[authGuard]} element={<HomeView />} />} />
+                  {/* <Route path={routes.DMS} element={<HomeView />} /> */}
+                  {/* <Route path={routes.ACTIVITY} element={<HomeView />} /> */}
                     <Route path="/" element={<Navigate to={routes.DEFAULT} replace />} />
                     <Route path="/*" element={<Navigate to={routes.DEFAULT} replace />} />
                   </Route>

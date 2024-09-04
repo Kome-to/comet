@@ -36,6 +36,10 @@ const WorkspaceSelectionView: React.FC = () => {
     dispatch(setHashKey(''));
     storage.removeToken();
     window.location.replace(`${import.meta.env.VITE_APP_PROTOCOL}open?token=${token}&&hashKey=${hashKey}`);
+    console.log(
+      '🚀 ~ handleCreateWorkspace ~ `${import.meta.env.VITE_APP_PROTOCOL}open?token=${token}&&hashKey=${hashKey}`:',
+      `${import.meta.env.VITE_APP_PROTOCOL}open?token=${token}&&hashKey=${hashKey}`,
+    );
   };
 
   return (
