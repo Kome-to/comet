@@ -1,3 +1,4 @@
+import { ChannelAttributes, ChannelCreation } from './Channel';
 import { MemberCreation } from './Member';
 
 export interface WorkspaceAttributes {
@@ -14,10 +15,5 @@ export interface WorkspaceCreateParams {
 
   members: MemberCreation[];
 
-  channel: {
-    name: string;
-    isPrivate: boolean;
-    publicKey: string;
-    ePrivateKey: string;
-  };
+  channels: ChannelAttributes[] | ChannelCreation[];
 }

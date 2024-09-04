@@ -6,7 +6,7 @@ export const initResolvers = (pubsub: PubSub) => ({
     chats: () => [],
   },
   Mutation: {
-    createWorkspace: Workspace.createWorkspace(pubsub),
+    createWorkspace: Workspace.create(pubsub),
   },
   Subscription: {
     books: {
