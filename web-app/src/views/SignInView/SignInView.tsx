@@ -15,7 +15,7 @@ import { SignInParams } from '../../services/types/common';
 import ChangeRegion from '../GetStartedView/ChangeRegion';
 import { storage } from '../../common/utils/storage';
 import { useDispatch } from 'react-redux';
-import { setHashKey } from '../../services/controllers/common/CommonSlice';
+import { setEmail, setHashKey } from '../../services/controllers/common/CommonSlice';
 
 const linkCss = 'hover:underline cursor-pointer';
 
@@ -34,10 +34,11 @@ const SignInView: React.FC = () => {
   const onSubmit = async ({ email, password }: SignInParams) => {
     try {
       const hashedPassword = await hash(password);
-      const { token } = await api.user.login({ email, password: hashedPassword });
+      const data = await api.user.login({ email, password: hashedPassword });
       notify.success(t('signInView.success.signInSuccessfully'));
-      storage.setToken(token);
+      storage.setToken(data);
       dispatch(setHashKey(hashedPassword));
+      dispatch(setEmail(email));
       navigator(routes.WORKSPACE_SELECTION);
     } catch (e) {
       console.log(e);
@@ -56,7 +57,7 @@ const SignInView: React.FC = () => {
   return (
     <div className="container max-w-[768px] h-screen mx-auto flex flex-col">
       <Logo onClick={onClickLogo} wrapperClassName="mx-auto py-4" className="w-48" />
-      <div className="grow flex flex-col flex-grow">
+      <div className="grow flex flex-col">
         {
           <div className="text-center">
             <div className="text-5xl font-bold mb-3 sm:text-4xl">{t('signInView.text.title.signInToComet')}</div>

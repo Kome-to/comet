@@ -8,12 +8,14 @@ export interface CommonState {
     };
   };
   hashKey: string;
+  email: string;
 }
 
 const initialState: CommonState = {
   loading: false,
   ui: { dialog: {} },
   hashKey: '',
+  email: '',
 };
 
 export const commonSlice = createSlice({
@@ -35,9 +37,12 @@ export const commonSlice = createSlice({
     setHashKey: (state, action: PayloadAction<string>) => {
       state.hashKey = action.payload;
     },
+    setEmail: (state, action: PayloadAction<string>) => {
+      state.email = action.payload;
+    },
   },
 });
 
-export const { setLoading, toggleModals, closeModals, setHashKey } = commonSlice.actions;
+export const { setLoading, toggleModals, closeModals, setHashKey, setEmail } = commonSlice.actions;
 
 export default commonSlice.reducer;

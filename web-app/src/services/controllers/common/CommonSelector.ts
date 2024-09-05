@@ -7,3 +7,4 @@ export const selectLoading = createSelector(selectCommon, (common) => common.loa
 export const selectModalStatus = createSelector(selectCommon, (common) => common.ui.dialog);
 
 export const selectHashKey = createSelector(selectCommon, (common) => common.hashKey);
+export const selectEmail = createSelector(selectCommon, (common) => common.email);

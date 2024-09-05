@@ -7,8 +7,8 @@ import { routes } from '../../common/utils/routes';
 import { storage } from '../../common/utils/storage';
 import Logo from '../../components/Logo/Logo';
 import Svg, { SvgName } from '../../components/Svg/Svg';
-import { selectHashKey } from '../../services/controllers/common/CommonSelector';
-import { setHashKey } from '../../services/controllers/common/CommonSlice';
+import { selectEmail, selectHashKey } from '../../services/controllers/common/CommonSelector';
+import { setEmail, setHashKey } from '../../services/controllers/common/CommonSlice';
 import ChangeRegion from '../GetStartedView/ChangeRegion';
 const linkCss = 'hover:underline cursor-pointer';
 
@@ -16,6 +16,7 @@ const WorkspaceSelectionView: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const hashKey = useSelector(selectHashKey);
+  const email = useSelector(selectEmail);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,8 +33,9 @@ const WorkspaceSelectionView: React.FC = () => {
   };
 
   const handleCreateWorkspace = async () => {
-    const token = storage.getToken();
+    const token = `${storage.getToken()}`;
     dispatch(setHashKey(''));
+    dispatch(setEmail(''));
     storage.removeToken();
     window.location.replace(`${import.meta.env.VITE_APP_PROTOCOL}open?token=${token}&&hashKey=${hashKey}`);
   };
@@ -41,14 +43,14 @@ const WorkspaceSelectionView: React.FC = () => {
   return (
     <div className="container max-w-[768px] h-screen mx-auto flex flex-col">
       <Logo onClick={() => {}} wrapperClassName="mx-auto py-4" className="w-40" />
-      <div className="grow flex flex-col flex-grow">
+      <div className="grow flex flex-col">
         <div className="text-center w-[600px] mx-auto">
           <div className="flex gap-10 items-center ">
             <div className="flex flex-col gap-1  text-justify">
               <div className="text-black text-3xl font-bold">It looks like you’re new to Comet</div>
               <div>
                 <span>There aren’t any invitations or Slack accounts for</span>
-                <span className="font-bold pl-1">{'ducanh2306nd@gmail.com'}</span>
+                <span className="font-bold pl-1">{email || ''}</span>
                 <span>. If your team isn’t on Slack yet, you can create a workspace for them.</span>
               </div>
             </div>
